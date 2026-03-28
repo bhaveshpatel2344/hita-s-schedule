@@ -1,298 +1,315 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Hita's Schedule Pro</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg: #f8f9fa;
-  --white: #ffffff;
-  --ink: #1a1714;
-  --ink2: #5f6368;
-  --border: #e8eaed;
-  --j1: #c94040;
-  --j1-soft: #fef2f2;
-  --j2: #2a6dd9;
-  --j2-soft: #eff6ff;
-  --accent: #6200ee;
-  --radius: 12px;
-  --shadow: 0 2px 10px rgba(0,0,0,0.05);
-}
-
-* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-body { 
-    background: var(--bg); 
-    color: var(--ink); 
-    font-family: 'DM Sans', sans-serif; 
-    margin: 0; 
-    padding-bottom: 100px;
-}
-
-/* Header */
-.header { background: var(--white); padding: 20px; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 10; }
-.header-top { display: flex; justify-content: space-between; align-items: center; }
-.logo { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 900; }
-.logo span { color: var(--j1); }
-
-/* Config Section */
-.controls { padding: 15px 20px; background: var(--white); display: flex; gap: 10px; overflow-x: auto; border-bottom: 1px solid var(--border); }
-.input-group { min-width: 140px; }
-.input-group label { font-size: 10px; text-transform: uppercase; font-weight: 700; color: var(--ink2); display: block; margin-bottom: 4px; }
-input[type="date"], input[type="text"] { 
-    width: 100%; border: 1px solid var(--border); padding: 8px; border-radius: 8px; font-family: inherit;
-}
-
-/* Schedule Grid */
-.day-card { 
-    background: var(--white); margin: 10px 15px; border-radius: var(--radius); 
-    box-shadow: var(--shadow); display: grid; grid-template-columns: 60px 1fr 1fr; overflow: hidden;
-}
-.day-info { 
-    display: flex; flex-direction: column; align-items: center; justify-content: center; 
-    background: #f1f3f4; border-right: 1px solid var(--border);
-}
-.dow { font-size: 11px; font-weight: 700; color: var(--ink2); }
-.dom { font-size: 18px; font-weight: 700; }
-
-.shift-slot { padding: 12px; cursor: pointer; min-height: 70px; display: flex; flex-direction: column; justify-content: center; }
-.shift-slot.empty { color: #bdc1c6; font-size: 12px; text-align: center; border-right: 1px solid var(--border); }
-.shift-slot.filled { border-right: 1px solid var(--border); }
-.j1-bg { background: var(--j1-soft); border-left: 4px solid var(--j1); }
-.j2-bg { background: var(--j2-soft); border-left: 4px solid var(--j2); }
-
-.s-name { font-weight: 700; font-size: 13px; margin-bottom: 2px; }
-.s-time { font-size: 11px; color: var(--ink2); }
-
-/* Bottom Sheet */
-.modal-overlay { 
-    position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; 
-    align-items: flex-end; z-index: 100; backdrop-filter: blur(4px);
-}
-.modal-overlay.active { display: flex; }
-.sheet { 
-    background: var(--white); width: 100%; border-radius: 20px 20px 0 0; 
-    padding: 25px; transform: translateY(100%); transition: transform 0.3s ease; 
-}
-.modal-overlay.active .sheet { transform: translateY(0); }
-
-.quick-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-.action-btn { 
-    padding: 12px; border: 1px solid var(--border); border-radius: 10px; 
-    background: #f8f9fa; cursor: pointer; font-weight: 600; font-size: 13px;
-}
-.action-btn:hover { background: #eee; }
-
-.custom-form { display: grid; gap: 15px; }
-.time-inputs { display: flex; gap: 10px; }
-.save-btn { 
-    background: var(--ink); color: white; padding: 15px; border: none; 
-    border-radius: 10px; font-weight: 700; cursor: pointer; margin-top: 10px;
-}
-.clear-btn { background: transparent; color: #d93025; border: none; padding: 10px; cursor: pointer; font-size: 13px; }
-
-.export-fab {
-    position: fixed; bottom: 20px; right: 20px; background: var(--ink); color: white;
-    padding: 15px 25px; border-radius: 30px; font-weight: 700; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    border: none; cursor: pointer; z-index: 5;
-}
-</style>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.4">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; -webkit-text-stroke: #000000}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; -webkit-text-stroke: #000000; min-height: 14.0px}
+    span.s1 {font-kerning: none}
+  </style>
 </head>
 <body>
-
-<div class="header">
-    <div class="header-top">
-        <div class="logo">Hita<span>'s</span></div>
-        <div id="statCounter" style="font-size: 12px; font-weight: 600; color: var(--ink2);">0 Shifts This Month</div>
-    </div>
-</div>
-
-<div class="controls">
-    <div class="input-group">
-        <label>Start Date</label>
-        <input type="date" id="startDate" onchange="renderSchedule()">
-    </div>
-    <div class="input-group">
-        <label>Job 1 Name</label>
-        <input type="text" id="j1Name" value="On-Site" oninput="renderSchedule()">
-    </div>
-    <div class="input-group">
-        <label>Job 2 Name</label>
-        <input type="text" id="j2Name" value="Remote" oninput="renderSchedule()">
-    </div>
-</div>
-
-<div id="scheduleGrid"></div>
-
-<button class="export-fab" onclick="exportICS()">Export to iOS</button>
-
-<div class="modal-overlay" id="modal">
-    <div class="sheet">
-        <div style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <h3 id="modalTitle">Edit Shift</h3>
-            <button onclick="closeModal()" style="border:none; background:none; font-size: 20px;">✕</button>
-        </div>
-        
-        <div class="quick-actions">
-            <button class="action-btn" onclick="applyPreset('Day', '09:00', '17:00')">☀️ Day (9-5)</button>
-            <button class="action-btn" onclick="applyPreset('Night', '22:00', '06:00')">🌙 Night</button>
-            <button class="action-btn" id="cloneBtn" onclick="cloneYesterday()">📋 Copy Yesterday</button>
-            <button class="action-btn" onclick="document.getElementById('customName').focus()">✏️ Custom</button>
-        </div>
-
-        <div class="custom-form">
-            <div class="input-group">
-                <label>Shift Label / Task</label>
-                <input type="text" id="customName" placeholder="e.g. Training, Custom Shift">
-            </div>
-            <div class="time-inputs">
-                <div class="input-group" style="flex:1">
-                    <label>Start</label>
-                    <input type="time" id="customStart">
-                </div>
-                <div class="input-group" style="flex:1">
-                    <label>End</label>
-                    <input type="time" id="customEnd">
-                </div>
-            </div>
-            <button class="save-btn" onclick="saveShift()">Save Shift</button>
-            <button class="clear-btn" onclick="deleteShift()">Delete Shift</button>
-        </div>
-    </div>
-</div>
-
-<script>
-let state = JSON.parse(localStorage.getItem('hita_shifts')) || {};
-let activeKey = null; // "YYYY-MM-DD-job1"
-const DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-
-function renderSchedule() {
-    const startInput = document.getElementById('startDate').value;
-    if(!startInput) return;
-    
-    const start = new Date(startInput + 'T00:00:00');
-    const container = document.getElementById('scheduleGrid');
-    container.innerHTML = '';
-    
-    const j1n = document.getElementById('j1Name').value;
-    const j2n = document.getElementById('j2Name').value;
-    
-    let shiftCount = 0;
-
-    for(let i=0; i<31; i++) {
-        const d = new Date(start);
-        d.setDate(d.getDate() + i);
-        const key = d.toISOString().split('T')[0];
-        
-        const row = document.createElement('div');
-        row.className = 'day-card';
-        
-        const s1 = state[key + '-j1'];
-        const s2 = state[key + '-j2'];
-        if(s1) shiftCount++;
-        if(s2) shiftCount++;
-
-        row.innerHTML = `
-            <div class="day-info">
-                <div class="dow">${DOW[d.getDay()]}</div>
-                <div class="dom">${d.getDate()}</div>
-            </div>
-            <div class="shift-slot ${s1 ? 'filled j1-bg' : 'empty'}" onclick="openModal('${key}-j1')">
-                ${s1 ? `<div class="s-name">${s1.label}</div><div class="s-time">${s1.start}-${s1.end}</div>` : `+ ${j1n}`}
-            </div>
-            <div class="shift-slot ${s2 ? 'filled j2-bg' : 'empty'}" onclick="openModal('${key}-j2')">
-                ${s2 ? `<div class="s-name">${s2.label}</div><div class="s-time">${s2.start}-${s2.end}</div>` : `+ ${j2n}`}
-            </div>
-        `;
-        container.appendChild(row);
-    }
-    document.getElementById('statCounter').innerText = `${shiftCount} Shifts This Period`;
-    localStorage.setItem('hita_shifts', JSON.stringify(state));
-}
-
-function openModal(key) {
-    activeKey = key;
-    const shift = state[key];
-    const isJ1 = key.includes('j1');
-    const jobName = isJ1 ? document.getElementById('j1Name').value : document.getElementById('j2Name').value;
-    
-    document.getElementById('modalTitle').innerText = jobName;
-    document.getElementById('customName').value = shift ? shift.label : '';
-    document.getElementById('customStart').value = shift ? shift.start : '09:00';
-    document.getElementById('customEnd').value = shift ? shift.end : '17:00';
-    
-    document.getElementById('modal').classList.add('active');
-}
-
-function applyPreset(label, s, e) {
-    document.getElementById('customName').value = label;
-    document.getElementById('customStart').value = s;
-    document.getElementById('customEnd').value = e;
-}
-
-function cloneYesterday() {
-    const parts = activeKey.split('-'); // [YYYY, MM, DD, job]
-    const currentDay = new Date(parts[0], parts[1]-1, parts[2]);
-    currentDay.setDate(currentDay.getDate() - 1);
-    const yesterdayKey = currentDay.toISOString().split('T')[0] + '-' + parts[3];
-    
-    if(state[yesterdayKey]) {
-        const prev = state[yesterdayKey];
-        applyPreset(prev.label, prev.start, prev.end);
-    } else {
-        alert("No shift found for yesterday to copy!");
-    }
-}
-
-function saveShift() {
-    state[activeKey] = {
-        label: document.getElementById('customName').value || 'Shift',
-        start: document.getElementById('customStart').value,
-        end: document.getElementById('customEnd').value
-    };
-    closeModal();
-    renderSchedule();
-}
-
-function deleteShift() {
-    delete state[activeKey];
-    closeModal();
-    renderSchedule();
-}
-
-function closeModal() {
-    document.getElementById('modal').classList.remove('active');
-}
-
-function exportICS() {
-    let ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Hita//Schedule//EN'];
-    for (let key in state) {
-        const dateStr = key.split('-').slice(0,3).join('');
-        const shift = state[key];
-        const sTime = shift.start.replace(':', '') + '00';
-        const eTime = shift.end.replace(':', '') + '00';
-        
-        ics.push('BEGIN:VEVENT');
-        ics.push(`DTSTART:${dateStr}T${sTime}`);
-        ics.push(`DTEND:${dateStr}T${eTime}`);
-        ics.push(`SUMMARY:${shift.label}`);
-        ics.push('END:VEVENT');
-    }
-    ics.push('END:VCALENDAR');
-    
-    const blob = new Blob([ics.join('\r\n')], {type: 'text/calendar'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'schedule.ics';
-    a.click();
-}
-
-// Init
-const now = new Date();
-document.getElementById('startDate').value = now.toISOString().split('T')[0];
-renderSchedule();
-</script>
+<p class="p1"><span class="s1">&lt;!DOCTYPE html&gt;</span></p>
+<p class="p1"><span class="s1">&lt;html lang="en"&gt;</span></p>
+<p class="p1"><span class="s1">&lt;head&gt;</span></p>
+<p class="p1"><span class="s1">&lt;meta charset="UTF-8"&gt;</span></p>
+<p class="p1"><span class="s1">&lt;meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"&gt;</span></p>
+<p class="p1"><span class="s1">&lt;title&gt;Hita's Schedule Pro&lt;/title&gt;</span></p>
+<p class="p1"><span class="s1">&lt;link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;family=Playfair+Display:wght@700;900&amp;display=swap" rel="stylesheet"&gt;</span></p>
+<p class="p1"><span class="s1">&lt;style&gt;</span></p>
+<p class="p1"><span class="s1">:root {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>--bg: #f8f9fa;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>--white: #ffffff;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>--ink: #1a1714;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>--ink2: #5f6368;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>--border: #e8eaed;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>--j1: #c94040;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>--j1-soft: #fef2f2;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>--j2: #2a6dd9;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>--j2-soft: #eff6ff;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>--accent: #6200ee;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>--radius: 12px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>--shadow: 0 2px 10px rgba(0,0,0,0.05);</span></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }</span></p>
+<p class="p1"><span class="s1">body {<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>background: var(--bg);<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>color: var(--ink);<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>font-family: 'DM Sans', sans-serif;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>margin: 0;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>padding-bottom: 100px;</span></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">/* Header */</span></p>
+<p class="p1"><span class="s1">.header { background: var(--white); padding: 20px; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 10; }</span></p>
+<p class="p1"><span class="s1">.header-top { display: flex; justify-content: space-between; align-items: center; }</span></p>
+<p class="p1"><span class="s1">.logo { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 900; }</span></p>
+<p class="p1"><span class="s1">.logo span { color: var(--j1); }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">/* Config Section */</span></p>
+<p class="p1"><span class="s1">.controls { padding: 15px 20px; background: var(--white); display: flex; gap: 10px; overflow-x: auto; border-bottom: 1px solid var(--border); }</span></p>
+<p class="p1"><span class="s1">.input-group { min-width: 140px; }</span></p>
+<p class="p1"><span class="s1">.input-group label { font-size: 10px; text-transform: uppercase; font-weight: 700; color: var(--ink2); display: block; margin-bottom: 4px; }</span></p>
+<p class="p1"><span class="s1">input[type="date"], input[type="text"] {<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>width: 100%; border: 1px solid var(--border); padding: 8px; border-radius: 8px; font-family: inherit;</span></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">/* Schedule Grid */</span></p>
+<p class="p1"><span class="s1">.day-card {<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>background: var(--white); margin: 10px 15px; border-radius: var(--radius);<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>box-shadow: var(--shadow); display: grid; grid-template-columns: 60px 1fr 1fr; overflow: hidden;</span></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p1"><span class="s1">.day-info {<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>display: flex; flex-direction: column; align-items: center; justify-content: center;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>background: #f1f3f4; border-right: 1px solid var(--border);</span></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p1"><span class="s1">.dow { font-size: 11px; font-weight: 700; color: var(--ink2); }</span></p>
+<p class="p1"><span class="s1">.dom { font-size: 18px; font-weight: 700; }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">.shift-slot { padding: 12px; cursor: pointer; min-height: 70px; display: flex; flex-direction: column; justify-content: center; }</span></p>
+<p class="p1"><span class="s1">.shift-slot.empty { color: #bdc1c6; font-size: 12px; text-align: center; border-right: 1px solid var(--border); }</span></p>
+<p class="p1"><span class="s1">.shift-slot.filled { border-right: 1px solid var(--border); }</span></p>
+<p class="p1"><span class="s1">.j1-bg { background: var(--j1-soft); border-left: 4px solid var(--j1); }</span></p>
+<p class="p1"><span class="s1">.j2-bg { background: var(--j2-soft); border-left: 4px solid var(--j2); }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">.s-name { font-weight: 700; font-size: 13px; margin-bottom: 2px; }</span></p>
+<p class="p1"><span class="s1">.s-time { font-size: 11px; color: var(--ink2); }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">/* Bottom Sheet */</span></p>
+<p class="p1"><span class="s1">.modal-overlay {<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>align-items: flex-end; z-index: 100; backdrop-filter: blur(4px);</span></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p1"><span class="s1">.modal-overlay.active { display: flex; }</span></p>
+<p class="p1"><span class="s1">.sheet {<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>background: var(--white); width: 100%; border-radius: 20px 20px 0 0;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>padding: 25px; transform: translateY(100%); transition: transform 0.3s ease;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p1"><span class="s1">.modal-overlay.active .sheet { transform: translateY(0); }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">.quick-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }</span></p>
+<p class="p1"><span class="s1">.action-btn {<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>padding: 12px; border: 1px solid var(--border); border-radius: 10px;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>background: #f8f9fa; cursor: pointer; font-weight: 600; font-size: 13px;</span></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p1"><span class="s1">.action-btn:hover { background: #eee; }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">.custom-form { display: grid; gap: 15px; }</span></p>
+<p class="p1"><span class="s1">.time-inputs { display: flex; gap: 10px; }</span></p>
+<p class="p1"><span class="s1">.save-btn {<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>background: var(--ink); color: white; padding: 15px; border: none;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>border-radius: 10px; font-weight: 700; cursor: pointer; margin-top: 10px;</span></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p1"><span class="s1">.clear-btn { background: transparent; color: #d93025; border: none; padding: 10px; cursor: pointer; font-size: 13px; }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">.export-fab {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>position: fixed; bottom: 20px; right: 20px; background: var(--ink); color: white;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>padding: 15px 25px; border-radius: 30px; font-weight: 700; box-shadow: 0 4px 15px rgba(0,0,0,0.2);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>border: none; cursor: pointer; z-index: 5;</span></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p1"><span class="s1">&lt;/style&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/head&gt;</span></p>
+<p class="p1"><span class="s1">&lt;body&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;div class="header"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="header-top"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="logo"&gt;Hita&lt;span&gt;'s&lt;/span&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div id="statCounter" style="font-size: 12px; font-weight: 600; color: var(--ink2);"&gt;0 Shifts This Month&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;div class="controls"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="input-group"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;label&gt;Start Date&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;input type="date" id="startDate" onchange="renderSchedule()"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="input-group"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;label&gt;Job 1 Name&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;input type="text" id="j1Name" value="On-Site" oninput="renderSchedule()"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="input-group"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;label&gt;Job 2 Name&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;input type="text" id="j2Name" value="Remote" oninput="renderSchedule()"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;div id="scheduleGrid"&gt;&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;button class="export-fab" onclick="exportICS()"&gt;Export to iOS&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;div class="modal-overlay" id="modal"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="sheet"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 20px;"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h3 id="modalTitle"&gt;Edit Shift&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button onclick="closeModal()" style="border:none; background:none; font-size: 20px;"&gt;✕&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="quick-actions"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="action-btn" onclick="applyPreset('Day', '09:00', '17:00')"&gt;☀️ Day (9-5)&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="action-btn" onclick="applyPreset('Night', '22:00', '06:00')"&gt;🌙 Night&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="action-btn" id="cloneBtn" onclick="cloneYesterday()"&gt;📋 Copy Yesterday&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="action-btn" onclick="document.getElementById('customName').focus()"&gt;✏️ Custom&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="custom-form"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="input-group"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;label&gt;Shift Label / Task&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;input type="text" id="customName" placeholder="e.g. Training, Custom Shift"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="time-inputs"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="input-group" style="flex:1"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;label&gt;Start&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;input type="time" id="customStart"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="input-group" style="flex:1"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;label&gt;End&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;input type="time" id="customEnd"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="save-btn" onclick="saveShift()"&gt;Save Shift&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="clear-btn" onclick="deleteShift()"&gt;Delete Shift&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;script&gt;</span></p>
+<p class="p1"><span class="s1">let state = JSON.parse(localStorage.getItem('hita_shifts')) || {};</span></p>
+<p class="p1"><span class="s1">let activeKey = null; // "YYYY-MM-DD-job1"</span></p>
+<p class="p1"><span class="s1">const DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">function renderSchedule() {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const startInput = document.getElementById('startDate').value;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if(!startInput) return;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const start = new Date(startInput + 'T00:00:00');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const container = document.getElementById('scheduleGrid');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>container.innerHTML = '';</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const j1n = document.getElementById('j1Name').value;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const j2n = document.getElementById('j2Name').value;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>let shiftCount = 0;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>for(let i=0; i&lt;31; i++) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const d = new Date(start);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>d.setDate(d.getDate() + i);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const key = d.toISOString().split('T')[0];</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const row = document.createElement('div');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>row.className = 'day-card';</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const s1 = state[key + '-j1'];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const s2 = state[key + '-j2'];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>if(s1) shiftCount++;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>if(s2) shiftCount++;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>row.innerHTML = `</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="day-info"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="dow"&gt;${DOW[d.getDay()]}&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="dom"&gt;${d.getDate()}&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="shift-slot ${s1 ? 'filled j1-bg' : 'empty'}" onclick="openModal('${key}-j1')"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>${s1 ? `&lt;div class="s-name"&gt;${s1.label}&lt;/div&gt;&lt;div class="s-time"&gt;${s1.start}-${s1.end}&lt;/div&gt;` : `+ ${j1n}`}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="shift-slot ${s2 ? 'filled j2-bg' : 'empty'}" onclick="openModal('${key}-j2')"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>${s2 ? `&lt;div class="s-name"&gt;${s2.label}&lt;/div&gt;&lt;div class="s-time"&gt;${s2.start}-${s2.end}&lt;/div&gt;` : `+ ${j2n}`}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>container.appendChild(row);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>document.getElementById('statCounter').innerText = `${shiftCount} Shifts This Period`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>localStorage.setItem('hita_shifts', JSON.stringify(state));</span></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">function openModal(key) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>activeKey = key;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const shift = state[key];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const isJ1 = key.includes('j1');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const jobName = isJ1 ? document.getElementById('j1Name').value : document.getElementById('j2Name').value;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>document.getElementById('modalTitle').innerText = jobName;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>document.getElementById('customName').value = shift ? shift.label : '';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>document.getElementById('customStart').value = shift ? shift.start : '09:00';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>document.getElementById('customEnd').value = shift ? shift.end : '17:00';</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>document.getElementById('modal').classList.add('active');</span></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">function applyPreset(label, s, e) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>document.getElementById('customName').value = label;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>document.getElementById('customStart').value = s;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>document.getElementById('customEnd').value = e;</span></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">function cloneYesterday() {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const parts = activeKey.split('-'); // [YYYY, MM, DD, job]</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const currentDay = new Date(parts[0], parts[1]-1, parts[2]);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>currentDay.setDate(currentDay.getDate() - 1);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const yesterdayKey = currentDay.toISOString().split('T')[0] + '-' + parts[3];</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if(state[yesterdayKey]) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const prev = state[yesterdayKey];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>applyPreset(prev.label, prev.start, prev.end);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>} else {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>alert("No shift found for yesterday to copy!");</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">function saveShift() {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>state[activeKey] = {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>label: document.getElementById('customName').value || 'Shift',</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>start: document.getElementById('customStart').value,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>end: document.getElementById('customEnd').value</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>};</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>closeModal();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>renderSchedule();</span></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">function deleteShift() {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>delete state[activeKey];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>closeModal();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>renderSchedule();</span></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">function closeModal() {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>document.getElementById('modal').classList.remove('active');</span></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">function exportICS() {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>let ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Hita//Schedule//EN'];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>for (let key in state) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const dateStr = key.split('-').slice(0,3).join('');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const shift = state[key];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const sTime = shift.start.replace(':', '') + '00';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const eTime = shift.end.replace(':', '') + '00';</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>ics.push('BEGIN:VEVENT');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>ics.push(`DTSTART:${dateStr}T${sTime}`);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>ics.push(`DTEND:${dateStr}T${eTime}`);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>ics.push(`SUMMARY:${shift.label}`);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>ics.push('END:VEVENT');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>ics.push('END:VCALENDAR');</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const blob = new Blob([ics.join('\r\n')], {type: 'text/calendar'});</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const url = URL.createObjectURL(blob);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const a = document.createElement('a');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>a.href = url;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>a.download = 'schedule.ics';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>a.click();</span></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">// Init</span></p>
+<p class="p1"><span class="s1">const now = new Date();</span></p>
+<p class="p1"><span class="s1">document.getElementById('startDate').value = now.toISOString().split('T')[0];</span></p>
+<p class="p1"><span class="s1">renderSchedule();</span></p>
+<p class="p1"><span class="s1">&lt;/script&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/body&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/html&gt;</span></p>
 </body>
 </html>
