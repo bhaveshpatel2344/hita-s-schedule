@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.4">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="en"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1">&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1">&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1">&lt;title&gt;Hita Schedule&lt;/title&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;style&gt;</p>
+<p class="p1">body {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>font-family: Arial, sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>background:#f7f5f2;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>margin:0;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>padding:20px;</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">h1 { margin-bottom:10px; }</p>
+<p class="p2"><br></p>
+<p class="p1">.controls {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>display:flex;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>gap:10px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>margin-bottom:15px;</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">button {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>padding:8px 12px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border:none;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border-radius:6px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>cursor:pointer;</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">.grid {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>display:grid;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>grid-template-columns:repeat(7,1fr);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>gap:6px;</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">.day {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>background:#fff;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border:1px solid #ddd;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>padding:10px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>text-align:center;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>cursor:pointer;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border-radius:8px;</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">.day:hover { background:#f0f0f0; }</p>
+<p class="p2"><br></p>
+<p class="p1">.shift {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>font-size:12px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>margin-top:5px;</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;h1&gt;Hita Schedule 💊&lt;/h1&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;div class="controls"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;input type="month" id="monthPicker"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;button onclick="shareSchedule()"&gt;🔗 Share&lt;/button&gt;</p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;div class="grid" id="grid"&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;script&gt;</p>
+<p class="p1">const STORAGE_KEY = "hita_schedule_v1";</p>
+<p class="p2"><br></p>
+<p class="p1">let state = {};</p>
+<p class="p2"><br></p>
+<p class="p1">const shifts = ["","Day","Evening","Night"];</p>
+<p class="p2"><br></p>
+<p class="p1">function pad(n){ return String(n).padStart(2,"0"); }</p>
+<p class="p2"><br></p>
+<p class="p1">function dateKey(d){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function getDays(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const val = document.getElementById("monthPicker").value;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(!val) return [];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>const [y,m] = val.split("-").map(Number);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const days = [];</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const count = new Date(y, m, 0).getDate();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>for(let i=1;i&lt;=count;i++){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>days.push(new Date(y, m-1, i));</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>return days;</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function build(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const grid = document.getElementById("grid");</p>
+<p class="p1"><span class="Apple-converted-space">  </span>grid.innerHTML = "";</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>const days = getDays();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>days.forEach(d=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const key = dateKey(d);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>if(!state[key]) state[key] = 0;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>const div = document.createElement("div");</p>
+<p class="p1"><span class="Apple-converted-space">    </span>div.className = "day";</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>div.innerHTML = `</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div&gt;${d.getDate()}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="shift"&gt;${shifts[state[key]]}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>div.onclick = ()=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">      </span>state[key] = (state[key]+1) % shifts.length;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>save();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>build();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>grid.appendChild(div);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>});</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function save(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>localStorage.setItem(STORAGE_KEY, JSON.stringify(state));</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function load(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const data = localStorage.getItem(STORAGE_KEY);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(data) state = JSON.parse(data);</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function shareSchedule(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const encoded = btoa(JSON.stringify(state));</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const url = location.origin + location.pathname + "?data="+encoded;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>navigator.clipboard.writeText(url);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>alert("Link copied!");</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function loadFromURL(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const params = new URLSearchParams(location.search);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const data = params.get("data");</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(data){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>state = JSON.parse(atob(data));</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">(function init(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const d = new Date();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById("monthPicker").value =</p>
+<p class="p1"><span class="Apple-converted-space">    </span>d.getFullYear()+"-"+pad(d.getMonth()+1);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>loadFromURL();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>load();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>build();</p>
+<p class="p1">})();</p>
+<p class="p1">&lt;/script&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
